@@ -16,7 +16,6 @@ contract GameLogic is Pausable, Ownable, IERC721Receiver {
     YetiTown public yeti;
     FRXST public frxst;
     RarityStorage public rs;
-    
     address treasury;
 
     struct Stake {
@@ -46,11 +45,6 @@ contract GameLogic is Pausable, Ownable, IERC721Receiver {
     mapping(uint256 => InjuryStake) public hospital;
     mapping(uint256 => uint256) public experience;
     mapping(uint256 => uint8) public levels;
-
-
-    // uint256 public GATHERING_RATE = 100 * 1e18;
-    // uint256 public HUNTING_RATE = 200 * 1e18;
-    // uint256 public FIGHTING_RATE_FOR_LEVEL = 100 * 1e18;
     
     uint256 public MINIMUM_TO_EXIT = 1 minutes; //2 days;
     uint256 public INJURY_TIME = 1 minutes; //2 days;
@@ -208,20 +202,13 @@ contract GameLogic is Pausable, Ownable, IERC721Receiver {
     function SetHealingCost(uint256 _healingcost) external onlyOwner {
         LEVEL_UP_COST_MULTIPLIER = _healingcost * 1e18;
     }
-    // function SetRates(uint256[3] calldata gathering, uint256[3] calldata hunting, uint256[3] calldata fighting) external onlyOwner {
-    //     rates[0] = gathering;
-    //     rates[1] = hunting;
-    //     rates[2] = fighting;
-    // }
+
     function SetRescueEnabled(bool _rescue) external onlyOwner {
         rescueEnabled = _rescue;
     }
 
 
     // Game Functionality
-    function _addExp(uint256 tokenId, uint256 amount) internal {
-        experience[tokenId] += amount;
-    }
 
     function levelup(uint256 tokenId) external whenNotPaused {
         require(fighters[tokenId].tokenId != tokenId, "Can't level up while fighting");
@@ -231,7 +218,6 @@ contract GameLogic is Pausable, Ownable, IERC721Receiver {
         require(levels[tokenId] > 0 && levels[tokenId] < 10);
         require(frxst.balanceOf(msg.sender) > _nextLevelExp(levels[tokenId]) * LEVEL_UP_COST_MULTIPLIER, "Insufficient FRXST");
 
-        //require(levels[tokenId] > 0 && levels[tokenId] < 10);
         frxst.burn(_msgSender(), _nextLevelExp(levels[tokenId]) * LEVEL_UP_COST_MULTIPLIER);
         experience[tokenId] -= _nextLevelExp(levels[tokenId]);
         levels[tokenId] += 1;
@@ -351,7 +337,7 @@ contract GameLogic is Pausable, Ownable, IERC721Receiver {
         frxst.mint(treasury, amount);
     }
 
-    function Heal(uint256 tokenId) external {
+    function Heal(uint256 tokenId) external whenNotPaused {
         require(hospital[tokenId].value + INJURY_TIME > block.timestamp, "YOU ARE NOT INJURED");
         if (frxst.transferFrom(msg.sender, treasury, HEALING_COST)) {
             _claimYetiFromHospital(tokenId, true);
@@ -377,37 +363,39 @@ contract GameLogic is Pausable, Ownable, IERC721Receiver {
         require(stake.owner == _msgSender(), "SWIPER, NO SWIPING");
         require(!(unstake && block.timestamp - stake.value < MINIMUM_TO_EXIT), "Need two days of Frxst before claiming");
         uint c = rs.GetRarity(tokenId);
+        uint pace;
         uint256 hourly;
 
+        if (c == 0) {
+            pace = 100;
+        }
+
         if (stake.activityId == 1) {
-            hourly = rates[stake.activityId][c] * levels[tokenId] * 200;
+            hourly = rates[stake.activityId][c] * GetLevelModifier(levels[tokenId]) * 20;
         } else {
-            hourly = rates[stake.activityId][c] * levels[tokenId] * 100;
+            hourly = rates[stake.activityId][c] * GetLevelModifier(levels[tokenId]) * 10;
         } 
         
         uint256 mod = block.timestamp - stake.value / 1 days;
         
         owedFrxst =  hourly * mod / 100;
-        uint256 owedExp = mod * exprates[stake.activityId];
-
-        //uint256 owedExp = mod * GetExpActivityRate(stake.activityId);
+        uint256 owedExp = mod * exprates[stake.activityId] * ((c * 50) + 100) / 100;
 
         if (unstake) {
             if (stake.activityId == 0) {
                 // Pay Tax 50%
                 if (random(tokenId) % 100 < GATHERING_TAX_RISK_PERCENTAGE) {
-                uint256 amountToPay = GATHERING_FRXST_TAX_PERCENTAGE - levels[tokenId] * 5;
+                uint256 amountToPay = GATHERING_FRXST_TAX_PERCENTAGE - (levels[tokenId] * 5) + 5;
                 _payYetiTax(owedFrxst * amountToPay / 100);
                 owedFrxst = owedFrxst * (100 - amountToPay) / 100; // remainder goes to Yeti owner 
                 }
                 yeti.safeTransferFrom(address(this), _msgSender(), tokenId, ""); // send back Yeti
-                experience[tokenId] += owedExp;
                 totalYetiStakedGathering -= 1;
             }
 
             // Check Injury
             else if (stake.activityId == 1) {
-                uint256 chanceOfInjury = HUNTING_INJURY_RISK_PERCENTAGE - levels[tokenId] * 5;
+                uint256 chanceOfInjury = HUNTING_INJURY_RISK_PERCENTAGE - (levels[tokenId] * 5) + 5;
                 if (random(tokenId) % 100 < chanceOfInjury) {
                     hospital[tokenId] = InjuryStake({
                         owner: _msgSender(),
@@ -417,11 +405,12 @@ contract GameLogic is Pausable, Ownable, IERC721Receiver {
                     emit Injury(tokenId, uint80(block.timestamp));
                 } else {
                 yeti.safeTransferFrom(address(this), _msgSender(), tokenId, "");
-                experience[tokenId] += owedExp;
+               
                 }
                 totalYetiStakedHunting -= 1;
             }
 
+        experience[tokenId] += owedExp;
         delete palace[tokenId];
 
         } else {
@@ -444,7 +433,7 @@ contract GameLogic is Pausable, Ownable, IERC721Receiver {
         require(stake.owner == _msgSender(), "SWIPER, NO SWIPING");
         require(!(unstake && block.timestamp - stake.value < MINIMUM_TO_EXIT), "GONNA BE COLD WITHOUT TWO DAY'S FROST");
         uint c = rs.GetRarity(tokenId);
-        uint256 hourly = rates[stake.activityId][c] * levels[tokenId] * (levels[tokenId]) * 100;
+        uint256 hourly = rates[stake.activityId][c] * levels[tokenId] * GetLevelModifier(levels[tokenId]) * 10;
      
         uint256 mod = block.timestamp - stake.value / 1 days;
         
