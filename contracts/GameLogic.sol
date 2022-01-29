@@ -363,12 +363,7 @@ contract GameLogic is Pausable, Ownable, IERC721Receiver {
         require(stake.owner == _msgSender(), "SWIPER, NO SWIPING");
         require(!(unstake && block.timestamp - stake.value < MINIMUM_TO_EXIT), "Need two days of Frxst before claiming");
         uint c = rs.GetRarity(tokenId);
-        uint pace;
         uint256 hourly;
-
-        if (c == 0) {
-            pace = 100;
-        }
 
         if (stake.activityId == 1) {
             hourly = rates[stake.activityId][c] * GetLevelModifier(levels[tokenId]) * 20;
