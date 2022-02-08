@@ -96,8 +96,8 @@ contract YetiTown is ERC721Enumerable, Ownable {
     }
 
     // public
-    // Mint for tresury
-    function tresuryPresaleMint(address _to, uint256 _amount) public onlyOwner {
+    // Mint for treasury
+    function treasuryPresaleMint(address _to, uint256 _amount) public onlyOwner {
         require(!paused);
 
         require(_amount > 0, "Invalid amount");
@@ -122,8 +122,8 @@ contract YetiTown is ERC721Enumerable, Ownable {
 
     // public
 
-    // Mint for tresury in the case of mint doesn't sell out
-    function tresuryMint(address _to, uint256 _amount) public onlyOwner {
+    // Mint for treasury in the case of mint doesn't sell out
+    function treasuryMint(address _to, uint256 _amount) public onlyOwner {
         require(_amount > 0, "Invalid amount");
         require(
             nextTokenId + _amount - 1 <= maxSupply,

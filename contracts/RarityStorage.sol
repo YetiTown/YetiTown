@@ -2,7 +2,6 @@ pragma solidity ^0.8.0;
 
 import "./Ownable.sol";
 
-
 contract RarityStorage is Ownable {
 
     mapping(uint256 => uint256) public tokenRarity;
@@ -20,7 +19,7 @@ contract RarityStorage is Ownable {
     function EditRarity(uint256 tokenId, uint256 rarity) public onlyOwner {
         tokenRarity[tokenId] = rarity;
     }
-
+    
     function SetRarities(uint256[] memory rarities) public onlyOwner {
         uint len = 0;
         require(len < rarities.length);
@@ -34,4 +33,5 @@ contract RarityStorage is Ownable {
     function RaritiesCounter() public view returns (uint256) {
         return rarityCounter;
     }
+
 }

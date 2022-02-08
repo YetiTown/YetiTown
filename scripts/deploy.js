@@ -8,29 +8,29 @@ const hre = require("hardhat");
 async function main() {
 
 
-  let YetiTownAdr = "0x323e53bf5C09642ceeE13D82e4095149b75e6104";
-  let FrxstAdr = "0xc17a2F72578B9B80Eee729e265D72b0d0f4fe44a";
-  let TreasuryAdr = "0xe206Fc7Fda4A28A70B6531480353F42C2D10f7C4";
-  let RSAdr = "0x3041cf720E27Ea9090A8B07A69F5d8849e6b26c6";
-  let GameLogicAdr = "0x161bAb67CD44ac1625Fb45c4d0BDE24fb9268DD6";
+  // let YetiTownAdr = "0x323e53bf5C09642ceeE13D82e4095149b75e6104";
+  // let FrxstAdr = "0xc17a2F72578B9B80Eee729e265D72b0d0f4fe44a";
+  // let TreasuryAdr = "0xe206Fc7Fda4A28A70B6531480353F42C2D10f7C4";
+  // let RSAdr = "0x3041cf720E27Ea9090A8B07A69F5d8849e6b26c6";
+  // let GameLogicAdr = "0x161bAb67CD44ac1625Fb45c4d0BDE24fb9268DD6";
 
   
   
-  await DeployFrxst(FrxstAdr);
-  const FRXST = await ethers.getContractFactory("FRXST");
-  const frxst = await FRXST.attach(FrxstAdr);
+  // await DeployFrxst(FrxstAdr);
+  // const FRXST = await ethers.getContractFactory("FRXST");
+  // // const frxst = await FRXST.attach(FrxstAdr);
   
-  await DeployRarityStorage(RSAdr);
-  const RS = await ethers.getContractFactory("RarityStorage");
-  const rs = await RS.attach(RSAdr);
+  // await DeployRarityStorage(RSAdr);
+  // const RS = await ethers.getContractFactory("RarityStorage");
+  // // const rs = await RS.attach(RSAdr);
   
-  await DeployYetiTown(YetiTownAdr);
-  const YetiTown = await ethers.getContractFactory("YetiTown");
-  const yetitown = await YetiTown.attach(YetiTownAdr);
+  // await DeployYetiTown(YetiTownAdr);
+  // const YetiTown = await ethers.getContractFactory("YetiTown");
+  // // const yetitown = await YetiTown.attach(YetiTownAdr);
   
-  const GameLogicAdr = await DeployGameLogic(YetiTownAdr, FrxstAdr, TreasuryAdr, RSAdr);
-  const GameLogic = await ethers.getContractFactory("GameLogic");
-  const gamelogic = await GameLogic.attach(GameLogicAdr);
+  // const GameLogicAdr = await DeployGameLogic(YetiTownAdr, FrxstAdr, TreasuryAdr, RSAdr);
+  // const GameLogic = await ethers.getContractFactory("GameLogic");
+  // const gamelogic = await GameLogic.attach(GameLogicAdr);
 
 
 
@@ -62,22 +62,22 @@ async function main() {
 
 
   // YetiTown.Transfer (from GameLogic)
-  await gamelogic.addManyToPalace(TreasuryAdr, [1], 1);
+  // await gamelogic.addManyToPalace(TreasuryAdr, [1], 1);
   // const total = await gamelogic.GetMinimumClaimTime();
   // console.log("Gathering Tax", total.toString());
-
+  await DeployFrxst()
 
 
 }
 
-async function DeployFrxst(FrxstAdr) {
+async function DeployFrxst() {
   const FRXST = await hre.ethers.getContractFactory("FRXST");
   const frxst = await FRXST.deploy();
-
+  console.log(frxst);
   await frxst.deployed();
 
   console.log("FRXST deployed to:", frxst.address);
-  FrxstAdr = frxst.address;
+  // FrxstAdr = frxst.address;
 }
 
 async function DeployRarityStorage(RSAdr) {
