@@ -12,6 +12,7 @@ contract GameLogic is Pausable, Ownable, IERC721Receiver {
     YetiTown public yeti;
     FRXST public frxst;
     RarityStorage public rs;
+
     address treasury;
 
     struct Stake {
@@ -218,6 +219,7 @@ contract GameLogic is Pausable, Ownable, IERC721Receiver {
         require(levels[tokenId] > 0 && levels[tokenId] < 10);
         require(frxst.balanceOf(msg.sender) > _nextLevelExp(levels[tokenId]) * LEVEL_UP_COST_MULTIPLIER, "Insufficient FRXST");
 
+        //require(levels[tokenId] > 0 && levels[tokenId] < 10);
         frxst.burn(_msgSender(), _nextLevelExp(levels[tokenId]) * LEVEL_UP_COST_MULTIPLIER);
         experience[tokenId] -= _nextLevelExp(levels[tokenId]);
         levels[tokenId] += 1;
@@ -362,9 +364,9 @@ contract GameLogic is Pausable, Ownable, IERC721Receiver {
         uint hourly;
 
         if (stake.activityId == 1) {
-            hourly = rates[stake.activityId][c] * GetLevelModifier(levels[tokenId]) * 20;
+            hourly = rates[stake.activityId][c] * levels[tokenId] * 200;
         } else {
-            hourly = rates[stake.activityId][c] * GetLevelModifier(levels[tokenId]) * 10;
+            hourly = rates[stake.activityId][c] * levels[tokenId] * 100;
         } 
         
         uint mod = (block.timestamp - stake.value) / 1 days;
@@ -383,6 +385,7 @@ contract GameLogic is Pausable, Ownable, IERC721Receiver {
                 owedFrxst = owedFrxst * (100 - amountToPay) / 100; // remainder goes to Yeti owner 
                 }
                 yeti.safeTransferFrom(address(this), _msgSender(), tokenId, ""); // send back Yeti
+                experience[tokenId] += owedExp;
                 totalYetiStakedGathering -= 1;
             }
 
@@ -398,12 +401,11 @@ contract GameLogic is Pausable, Ownable, IERC721Receiver {
                     emit Injury(tokenId, uint80(block.timestamp));
                 } else {
                 yeti.safeTransferFrom(address(this), _msgSender(), tokenId, "");
-               
+                experience[tokenId] += owedExp;
                 }
                 totalYetiStakedHunting -= 1;
             }
 
-        experience[tokenId] += owedExp;
         delete palace[tokenId];
 
         }

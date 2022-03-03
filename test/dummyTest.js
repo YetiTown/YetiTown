@@ -1,384 +1,275 @@
-const { expect } = require("chai");
-const { ethers } = require("hardhat");
-const { BigNumber } = require("ethers");
-const {BN,expectEvent,expectRevert} = require('@openzeppelin/test-helpers');
-const {address} = require("hardhat/internal/core/config/config-validation");
+const chai = require ('chai')
+const {solidity} = require ('ethereum-waffle')
+const {BigNumber} = require ('ethers')
+const { artifacts, ethers } = require("hardhat");
+describe("Deploying The Contract", async function () {
+    let yeti, nft, frxst, proxy, alice, bob, rarity, vrf, treasury, proxyUpdate, logic;
+    beforeEach("Setting Up The Test Suite", async function(){
+        [alice, bob, treasury] = await ethers.getSigners()
+        const Proxy = await ethers.getContractFactory("UnstructuredProxy")
+        const NFT = await ethers.getContractFactory("testYetiTown")
+        const Frxst = await ethers.getContractFactory("testFRXST")
+        const timeStamp = await ethers.getContractFactory("TimestampVRF")
+        const rs = await ethers.getContractFactory("rarityCheck")
+        const gameLogic = await ethers.getContractFactory("testGameLogic")
+        const gameLogicV2 = await ethers.getContractFactory("testGameLogicV2")
+        proxy = await Proxy.deploy()
+        nft = await NFT.deploy("YETI","YETI","YETI","YETI")
+        frxst = await Frxst.deploy()
+        vrf = await timeStamp.deploy(bob.address)
+        rarity = await  rs.deploy()
+        yeti = await gameLogic.deploy()
+        logic = await gameLogicV2.deploy()
 
-describe("First Test", async function() {
-    let yeti, frxst, town, rarity, vrf, owner, owner1;
-    beforeEach("test initiator", async function () {
-        [owner, owner1, owner2, owner3] = await ethers.getSigners();
-        const gameLogic = await ethers.getContractFactory("testGameLogic");
-        const rarityLogic = await ethers.getContractFactory("testRarityStorage");
-        const yetiTownLogic = await ethers.getContractFactory("testYetiTown");
-        const firxtLogic = await ethers.getContractFactory("testFRXST");
-        const timestamp = await ethers.getContractFactory("TimestampVRF");
-        vrf = await timestamp.deploy(owner.address)
-        console.log("Vrf address:-", await vrf.address);
-        frxst = await firxtLogic.deploy()
-        town = await yetiTownLogic.deploy('YETI', "YT", 'https://dummyURI.com', 'https://dummyURI/notReveild.com')
-        rarity = await rarityLogic.deploy()
-        yeti = await gameLogic.deploy(await town.address, await frxst.address, owner1.address, await rarity.address, vrf.address)
-        console.log("Game Logic address:-", await yeti.address);
-        await town.connect(owner).mint(2)
-        for (let i = 0; i < 2; i++) {
-            await town.connect(owner).approve(yeti.address, await town.tokenOfOwnerByIndex(owner.address, i));
+        await proxy.deployed()
+        await logic.deployed()
+        await nft.deployed()
+        await frxst.deployed()
+        await vrf.deployed()
+        await rarity.deployed()
+        await yeti.deployed()
+
+        await nft.connect(alice).mint(2)
+        await proxy.connect(alice).upgradeTo(yeti.address)
+        const {abi:abiLogic} = await artifacts.readArtifact("testGameLogic")
+        proxyUpdate = new ethers.Contract(proxy.address,abiLogic,ethers.getDefaultProvider())
+        await proxyUpdate.connect(alice).initialize()
+        await proxyUpdate.connect(alice).init(
+            nft.address,
+            frxst.address,
+            treasury.address,
+            rarity.address,
+            vrf.address,
+        )
+        await proxyUpdate.connect(alice).SetMinimumClaimTime(10);
+        await proxyUpdate.connect(alice).SetInjuryTime(10);
+        await proxyUpdate.connect(alice).gatheringFRXSTRisk(50);
+        await proxyUpdate.connect(alice).huntingInjuryRisk(500);
+        await proxyUpdate.connect(alice).fightingStolenRisk(100);
+        await proxyUpdate.connect(alice).SetGeneralTaxPercentage(10);
+        await proxyUpdate.connect(alice).SetGatherTaxPercentage(50);
+        await proxyUpdate.connect(alice).healCostSetter(ethers.utils.parseEther('500'));
+        await proxyUpdate.connect(alice).SetLevelUpCostMultiplier(100);
+        await proxyUpdate.connect(alice).setRewardCalculationDuration(10);
+        await proxyUpdate.connect(alice).SetFrxstRates([
+            [50, 60, 4],
+            [90, 135, 10],
+            [130, 195, 26]
+        ]);
+        await proxyUpdate.connect(alice).SetExpRates( [
+            [80,100,120],
+            [96,120,144],
+            [120,150,180]
+        ]);
+        await proxyUpdate.connect(alice).setyetiMultiplier([100, 120, 150])
+        await proxyUpdate.connect(alice).setlevelCost([0, 48, 210, 512, 980, 2100, 3430, 4760, 6379, 8313])
+        await proxyUpdate.connect(alice).setLevelExp([0, 50, 200, 450, 800, 1600, 2450, 3200, 4050, 5000])
+        await proxyUpdate.connect(alice).SetDesignatedSigner("0x2141fc90F4d8114e8778447d7c19b5992F6A0611")
+
+       // await yeti.connect(alice).initialize()
+       console.log("alice", alice.address)
+       for (let i=0;i< 2;i++) {
+             await nft.approve(proxyUpdate.address,await nft.tokenOfOwnerByIndex(alice.address,i))
         }
+        console.log('Proxy address', proxyUpdate.address)
+        console.log('Yeti address', yeti.address)
 
-        console.log(await yeti.getSignerStore());
-        await yeti.connect(owner).initiateGameAt([[46, 2,
-            "0x2ee6ab5f754c89c87653c4c934d2ffd19a324f9c3aacc1f68787ea0bfbd537a64fb04cc9ff9254c7acf915e28cece4844435827c82cdbab6946fec3f0fab08bd1b"]]);
-        // await yeti.connect(owner).initiateGameAt([[47, 1,
-        //     "0x6d034e7eecdbfc0c40929ff822a9048b1316e0e54aceca5b2850da011b81653a6b6a19bd5214925dc42a53cd38870fe1d3ee00f7ca23992a481055606421286f1b"]]);
-    });
+        await proxyUpdate.connect(alice).initiateGameAt([[46,1,"0x94f26eaf32b77a91659a5a24729b7b77bce695e9ca8c5d3b4f683ff54ffe498855e7e09e1c753ade95cbfd0f9701ed426818daa8321b0b36ddafc3ea752ceadf1c"]]);
+        await proxyUpdate.connect(alice).initiateGameAt([[47,1,"0x0fb2ffebb76360a663f88eaffe729387ea6627cd8850eee714d46876fe0a5baa382e900065bcf806bd819b2f588b4be60b999f3dd69b2e7a2716fd7246a5c4001b"]]);
+        await frxst.addController(proxyUpdate.address)
+        await proxyUpdate.connect(alice).addManyToPalace(alice.address,[46,47],0)
 
-    // it ("Stake Test", async function(){
-    //     await yeti.connect(owner).addManyToPalace(owner.address,[46],1)
-    //     expect(await yeti.levels([46])).to.equal(1)
-    //     // expect(await yeti.levels([47])).to.equal(1)
-    // });
-    //
-    // it ("Unstake Test", async function() {
-    //     await frxst.connect(owner).addController(yeti.address);
-    //     await yeti.connect(owner).addManyToPalace(owner.address,[46],1)
-    //     await expect(yeti.connect(owner).claimMany([46],true))
-    //         .to.be.revertedWith('Need two days of Frxst before claiming');
-    //     setTimeout(function () {
-    //         console.log('The code went to sleep for', 10)
-    //     }, 10);
-    //     function timeout(ms) {
-    //         return new Promise(resolve => setTimeout(resolve, ms));
-    //     }
-    //     await timeout(10*1000)
-    //     expect(await town.ownerOf(46)).to.equal(yeti.address)
-    //     const whatHappened = await yeti.connect(owner).claimMany([46],true)
-    //     console.log(whatHappened)
-    // });
-    //
-    // it("Setting up Noble", async function() {
-    //     await frxst.connect(owner).addController(yeti.address);
-    //     await yeti.connect(owner).addManyToPalace(owner.address,[46],2)
-    //     setTimeout(function () {
-    //         console.log('The code went to sleep for', 10, 'seconds')
-    //     }, 10);
-    //     function timeout(ms) {
-    //         return new Promise(resolve => setTimeout(resolve, ms));
-    //     }
-    //     console.log("Sleeping For 10 seconds");
-    //     await timeout(10*1000);
-    //     await yeti.claimMany([46], false);
-    //     console.log('The balance of owner after claiming 46',BigNumber.from(await frxst.balanceOf(owner.address)).toString());
-    //     await timeout(10*1000);
-    //     await yeti.claimMany([46], true);
-    //     console.log(await yeti.levels([46]));
-    //     console.log('The balance of owner after claiming 46',BigNumber.from(await frxst.balanceOf(owner.address)).toString());
-    //     expect (await town.ownerOf(46)).to.equal(owner.address);
-    // });
-    // //
-    // it('Checking Exp on Unstaking', async function(){
-    //     await frxst.connect(owner).addController(yeti.address);
-    //     await town.connect(owner).approve(yeti.address, 46);
-    //     await yeti.connect(owner).addManyToPalace(owner.address,[46],2);
-    //     console.log("here");
-    //     expect(await town.ownerOf(46)).to.equal(yeti.address);
-    //     console.log(await yeti.fighterArray([0]));
-    //     setTimeout(function () {
-    //         console.log('The code went to sleep for', 10, 'seconds')
-    //     }, 10);
-    //     function timeout(ms) {
-    //         return new Promise(resolve => setTimeout(resolve, ms));
-    //     }
-    //     console.log("Sleeping For 10 seconds");
-    //     await timeout(10*1000);
-    //     await yeti.claimMany([46], true);
-    // });
-    //
-    // it('After 2 days balance check of rarity 1',async function(){
-    //     await frxst.connect(owner).addController(yeti.address);
-    //     setTimeout(function () {
-    //         console.log('The code went to sleep for', 10, 'seconds')
-    //     }, 10);
-    //     function timeout(ms) {
-    //         return new Promise(resolve => setTimeout(resolve, ms));
-    //     }
-    //     await yeti.connect(owner).addManyToPalace(owner.address,[46],0)
-    //     await expect(yeti.connect(owner).claimMany([46],true))
-    //         .to.be.revertedWith('Need two days of Frxst before claiming');
-    //     console.log("Sleeping For 10 seconds");
-    //     await timeout(10*1000);
-    //     await yeti.claimMany([46], false);
-    //     expect (await frxst.balanceOf(owner.address)).to.equal(63);
-    //     await timeout(10*1000);
-    //     await yeti.claimMany([46],true);
-    //     //(63+63/2)
-    //     try{
-    //         expect (await frxst.balanceOf(owner.address)).to.equal(101);
-    //     }catch(error) {
-    //         expect (await frxst.balanceOf(owner.address)).to.equal(126);
-    //     }
-    //     expect (await yeti.experience(46)).to.equal(4)
-    //     await town.connect(owner).approve(yeti.address,46);
-    //     await yeti.addManyToPalace(owner.address,[46],0)
-    //     await timeout(10*1000);
-    //     await yeti.claimMany([46], false);
-    //     //expect (await frxst.balanceOf(owner.address)).to.equal(189);
-    //     try{
-    //         expect (await frxst.balanceOf(owner.address)).to.equal(164);
-    //     }catch(error) {
-    //         expect (await frxst.balanceOf(owner.address)).to.equal(189);
-    //     }
-    //     expect (await yeti.experience(46)).to.equal(4)
-    // })
-    //
-    // it('Claim Successive 2 times', async function(){
-    //     await frxst.connect(owner).addController(yeti.address);
-    //     await yeti.connect(owner).addManyToPalace(owner.address,[46],0);
-    //     setTimeout(function () {
-    //         console.log('The code went to sleep for', 10, 'seconds')
-    //     }, 10);
-    //     function timeout(ms) {
-    //         return new Promise(resolve => setTimeout(resolve, ms));
-    //     }
-    //     console.log("Sleeping For 10 seconds");
-    //     await timeout(10*1000);
-    //     await yeti.claimMany([46], false);
-    //     console.log("Balance after 1st claim",await frxst.balanceOf(owner.address));
-    //     await expect(yeti.connect(owner).claimMany([46],false))
-    //         .to.be.revertedWith('Claiming before 1 day');
-    // });
-    //
-    // it('Hunting and claiming FRXST without unstaking', async function(){
-    //     await yeti.connect(owner).initiateGameAt([[46, 1, "0x64e257be7ce2ccd565f1d0cff2d46e285d969fbcb675d314be3d183098e02d2b303864537b2237228bdddb7cb7c715180dca4d4581eff06fc2607c23bb1fe78b1c"]]);
-    //     await frxst.connect(owner).addController(yeti.address);
-    //     await yeti.connect(owner).addManyToPalace(owner.address,[46],1);
-    //     setTimeout(function () {
-    //         console.log('The code went to sleep for', 10, 'seconds')
-    //     }, 10);
-    //     function timeout(ms) {
-    //         return new Promise(resolve => setTimeout(resolve, ms));
-    //     }
-    //     console.log("Sleeping For 10 seconds");
-    //     await timeout(10*1000);
-    //     await timeout(10*1000);
-    //     await yeti.connect(owner).claimMany([46], false);
-    //     expect(await frxst.balanceOf(owner.address)).to.equal(324);
-    // });
-    //
-    // it('Hunting and claiming FRXST and EXP by unstaking', async function(){
-    //     await frxst.connect(owner).addController(yeti.address);
-    //     await yeti.connect(owner).addManyToPalace(owner.address,[46],1);
-    //     setTimeout(function () {
-    //         console.log('The code went to sleep for', 10, 'seconds')
-    //     }, 10);
-    //     function timeout(ms) {
-    //         return new Promise(resolve => setTimeout(resolve, ms));
-    //     }
-    //     console.log("Sleeping For 10 seconds");
-    //     await timeout(10*1000);
-    //     await timeout(10*1000);
-    //     await yeti.connect(owner).claimMany([46], true);
-    //     expect(await yeti.experience(46)).to.equal(6);
-    // });
-    // it('Fight Mode: EXP return and FRXST return', async function(){
-    //     await frxst.connect(owner).addController(yeti.address);
-    //     await yeti.connect(owner).addManyToPalace(owner.address,[47],2);
-    //     setTimeout(function () {
-    //         console.log('The code went to sleep for', 10, 'seconds')
-    //     }, 10);
-    //     function timeout(ms) {
-    //         return new Promise(resolve => setTimeout(resolve, ms));
-    //     }
-    //     console.log("Sleeping For 10 seconds");
-    //     await timeout(10*1000);
-    //     await yeti.connect(owner).claimMany([47], false);//140
-    //     await timeout(10*1000);
-    //     await yeti.connect(owner).claimMany([47], true);//126
-    //     console.log(await frxst.balanceOf(owner.address));//[140+126 = 266]
-    //     console.log(await yeti.experience(47));
-    // });
-    //
-    // it('level up', async function () {
-    //     await frxst.connect(owner).addController(yeti.address);
-    //     await yeti.connect(owner).addManyToPalace(owner.address, [47], 2);
-    //     setTimeout(function () {
-    //         console.log('The code went to sleep for', 10, 'seconds')
-    //     }, 10);
-    //
-    //     function timeout(ms) {
-    //         return new Promise(resolve => setTimeout(resolve, ms));
-    //     }
-    //
-    //     await expect(yeti.connect(owner).claimMany([46, 47], true))
-    //         .to.be.revertedWith('Need two days of Frxst before claiming');
-    //     console.log("Sleeping For 10 seconds");
-    //     await timeout(10 * 1000);
-    //     console.log("Forced claim to cause injury")
-    //     await yeti.claimMany([46, 47], true);
-    //     console.log('Checking the hospital array where it should be 1')
-    //     await frxst.connect(owner).approve(yeti.address, ethers.utils.parseEther('1000'))
-    //     console.log('The balance of the owner is ', await frxst.balanceOf(owner.address))
-    //     console.log('Coming to heal')
-    //     await yeti.Heal(46);
-    //     console.log('The balance of the owner after Heal ', await frxst.balanceOf(owner.address))
-    //     await expect(yeti.connect(owner).claimMany([46], true))
-    //         .to.be.revertedWith('Yeti is not staked and can therefore not be claimed.');
-    //     await timeout(10 * 1000);
-    //     expect(await town.ownerOf(46)).to.equal(owner.address)
-    //     await yeti.ClaimSickYeti(47)
-    //     expect(await town.ownerOf(47)).to.equal(owner.address)
-    // });
-    // it ('Hunt, Force injury followed by recovery in a tent and using Heal by giving FRXST Novels', async function(){
-    //     await frxst.connect(owner).addController(yeti.address);
-    //     await frxst.connect(owner).addController(owner.address);
-    //     await yeti.connect(owner).initiateGameAt([[46, 1, "0x64e257be7ce2ccd565f1d0cff2d46e285d969fbcb675d314be3d183098e02d2b303864537b2237228bdddb7cb7c715180dca4d4581eff06fc2607c23bb1fe78b1c"]]);
-    //     await yeti.connect(owner).initiateGameAt([[47, 1, "0x81968aa144fc3b40fb1f1d757077fe18a94554dfea46bc9f3803a8a695d9eec30cbcc8d04b8c114e11860ae7b6aaf07da1a2df3f63fa0b90226025cf5090e4be1c"]])
-    //     await yeti.connect(owner).addManyToPalace(owner.address,[46,47],1);
-    //     setTimeout(function () {
-    //         console.log('The code went to sleep for', 10, 'seconds')
-    //     }, 10);
-    //     function timeout(ms) {
-    //         return new Promise(resolve => setTimeout(resolve, ms));
-    //     }
-    //     await expect(yeti.connect(owner).claimMany([46,47],true))
-    //         .to.be.revertedWith('Need two days of Frxst before claiming');
-    //     console.log("Sleeping For 10 seconds");
-    //     await timeout(10*1000);
-    //     console.log('Checking the hospital array where it should be 0')
-    //     console.log("Forced claim to cause injury")
-    //     await yeti.claimMany([46,47],true);
-    //     console.log('Checking the hospital array where it should be 1')
-    //     console.log('The balance of the owner is ',await frxst.balanceOf(owner.address))
-    //     // await frxst.mint(owner.address,ethers.utils.parseEther('500'));
-    //     await frxst.connect(owner).approve(yeti.address, ethers.utils.parseEther('1000'))
-    //     console.log('Coming to heal')
-    //     await yeti.Heal(46);
-    //     console.log('The balance of the owner after Heal ',await frxst.balanceOf(owner.address))
-    //     await expect(yeti.connect(owner).claimMany([46], true))
-    //         .to.be.revertedWith('Yeti is not staked and can therefore not be claimed.');
-    //     await timeout(10*1000);
-    //     expect(await town.ownerOf(46)).to.equal(owner.address)
-    //     await yeti.ClaimSickYeti(47)
-    //     expect(await town.ownerOf(47)).to.equal(owner.address)
-    // });
-    // it ('Hunt, Force injury followed by recovery in a tent and using Heal by giving FRXST deviant', async function(){
-    //     await frxst.connect(owner).addController(yeti.address);
-    //     await frxst.connect(owner).addController(owner.address);
-    //     await yeti.connect(owner).initiateGameAt([[46, 0, "0xc35f193b050213d65d6c780569a351a9ba13f1e2fc569695b778abf2fbf67ff04f928e61ad46b72fd9f82e14d5ce20cd5bebd7357d902f812e9b6e5207f8293f1c"]]);
-    //     await yeti.connect(owner).initiateGameAt([[47, 0, "0x6d034e7eecdbfc0c40929ff822a9048b1316e0e54aceca5b2850da011b81653a6b6a19bd5214925dc42a53cd38870fe1d3ee00f7ca23992a481055606421286f1b"]])
-    //     await yeti.connect(owner).addManyToPalace(owner.address,[46,47],1);
-    //     setTimeout(function () {
-    //         console.log('The code went to sleep for', 10, 'seconds')
-    //     }, 10);
-    //     function timeout(ms) {
-    //         return new Promise(resolve => setTimeout(resolve, ms));
-    //     }
-    //     await expect(yeti.connect(owner).claimMany([46,47],true))
-    //         .to.be.revertedWith('Need two days of Frxst before claiming');
-    //     console.log("Sleeping For 10 seconds");
-    //     await timeout(10*1000);
-    //     console.log("Forced claim to cause injury")
-    //     await yeti.claimMany([46,47],true);
-    //     console.log('Checking the hospital array where it should be 1')
-    //     await frxst.connect(owner).approve(yeti.address, ethers.utils.parseEther('1000'))
-    //     console.log('The balance of the owner is ',await frxst.balanceOf(owner.address))
-    //     console.log('Coming to heal')
-    //     await yeti.Heal(46);
-    //     console.log('The balance of the owner after Heal ',await frxst.balanceOf(owner.address))
-    //     await expect(yeti.connect(owner).claimMany([46], true))
-    //         .to.be.revertedWith('Yeti is not staked and can therefore not be claimed.');
-    //     await timeout(10*1000);
-    //     expect(await town.ownerOf(46)).to.equal(owner.address)
-    //     await yeti.ClaimSickYeti(47)
-    //     expect(await town.ownerOf(47)).to.equal(owner.address)
-    // });
-    // it ('Hunt, Force injury followed by recovery in a tent and using Heal by giving FRXST eternal', async function(){
-    //     await frxst.connect(owner).addController(yeti.address);
-    //     await frxst.connect(owner).addController(owner.address);
-    //     await yeti.connect(owner).initiateGameAt([[46, 2, "0x2ee6ab5f754c89c87653c4c934d2ffd19a324f9c3aacc1f68787ea0bfbd537a64fb04cc9ff9254c7acf915e28cece4844435827c82cdbab6946fec3f0fab08bd1b"]]);
-    //     await yeti.connect(owner).initiateGameAt([[47, 2, "0xb06aa0ef7681b6d2a5ee51fba68dca198312b99ee6e640aad8f70578c4157a3270926df50a85927b632ced9081ab40c4b03bc6f2f323e2d52f2389dc341244281b"]])
-    //     await yeti.connect(owner).addManyToPalace(owner.address,[46,47],1);
-    //     setTimeout(function () {
-    //         console.log('The code went to sleep for', 10, 'seconds')
-    //     }, 10);
-    //     function timeout(ms) {
-    //         return new Promise(resolve => setTimeout(resolve, ms));
-    //     }
-    //     await expect(yeti.connect(owner).claimMany([46,47],true))
-    //         .to.be.revertedWith('Need two days of Frxst before claiming');
-    //     console.log("Sleeping For 10 seconds");
-    //     await timeout(10*1000);
-    //     console.log('Checking the hospital array where it should be 0')
-    //     console.log("Forced claim to cause injury")
-    //     await yeti.claimMany([46,47],true);
-    //     console.log('The balance of the owner is ',await frxst.balanceOf(owner.address))
-    //     console.log('Checking the hospital array where it should be 1')
-    //     await frxst.connect(owner).approve(yeti.address, ethers.utils.parseEther('1000'))
-    //     console.log('Coming to heal')
-    //     await yeti.Heal(46);
-    //     console.log('The balance of the owner after Heal ',await frxst.balanceOf(owner.address))
-    //     await expect(yeti.connect(owner).claimMany([46], true))
-    //         .to.be.revertedWith('Yeti is not staked and can therefore not be claimed.');
-    //     await timeout(10*1000);
-    //     expect(await town.ownerOf(46)).to.equal(owner.address)
-    //     await yeti.ClaimSickYeti(47)
-    //     expect(await town.ownerOf(47)).to.equal(owner.address)
-    // });
-
-    it('Leveling up traits', async function(){
-        await frxst.connect(owner).addController(yeti.address);
-        await yeti.connect(owner).addManyToPalace(owner.address, [46], 1);
         setTimeout(function () {
             console.log('The code went to sleep for', 10, 'seconds')
         }, 10);
         function timeout(ms) {
             return new Promise(resolve => setTimeout(resolve, ms));
         }
-        console.log("Sleeping For another 10 seconds");
-        await timeout(10*1000);
-        // await frxst.connect(owner).addController(owner.address);
-        // await frxst.connect(owner).mint(owner.address, ethers.utils.parseEther('60'));
-        // await frxst.connect(owner).approve(yeti.address, ethers.utils.parseEther('500'));
-        await yeti.claimMany([46], true);
-        console.log(await frxst.balanceOf(owner.address)); // 240
-        console.log(await yeti.experience(46)); // 10
-        await yeti.connect(owner).levelup(46);
-        console.log(await frxst.balanceOf(owner.address)); // 40
-        console.log(await yeti.levels([46])); // lvl 2
-        await town.connect(owner).approve(yeti.address, 46);
-        await yeti.connect(owner).addManyToPalace(owner.address, [46], 1);
-        await timeout(10*1000);
-        await timeout(10*1000);
-        await yeti.claimMany([46], true); // 264+264 = 528
-        console.log(await yeti.experience(46)); //40
-        console.log(await frxst.balanceOf(owner.address));
-        // await yeti.connect(owner).levelup(46);
-        // console.log(await frxst.balanceOf(owner.address));
-        // console.log(await yeti.levels([46]));
-        // console.log(await yeti.experience(46));
+        await timeout(10*1000)
+        await proxyUpdate.connect(alice).claimMany([46],true)
+        console.log(await nft.balanceOf(proxyUpdate.address))
+        console.log('The staked tokens are',await proxyUpdate.connect(alice).getStakedTokens(alice.address));
+        await proxyUpdate.connect(alice).transferOwnership(bob.address)
+        await proxy.connect(alice).transferProxyOwnership(bob.address)
+        const proxyWithAlice = await proxy.connect(bob)
+        await proxyWithAlice.upgradeTo(logic.address)
+        const { abi: abiLogicV2 } = await artifacts.readArtifact("testGameLogicV2")
+        proxyUpdate = new ethers.Contract(proxy.address, abiLogicV2, ethers.getDefaultProvider());
+        console.log(await nft.balanceOf(proxyUpdate.address))
+        console.log('Value:BOB ',await proxyUpdate.connect(bob).LEVEL_UP_COST_MULTIPLIER())
+        await proxyUpdate.connect(bob).SetMinimumClaimTime(10);
+        await proxyUpdate.connect(bob).SetInjuryTime(10);
+        await proxyUpdate.connect(bob).gatheringFRXSTRisk(50);
+        await proxyUpdate.connect(bob).huntingInjuryRisk(500);
+        await proxyUpdate.connect(bob).fightingStolenRisk(100);
+        await proxyUpdate.connect(bob).SetGeneralTaxPercentage(10);
+        await proxyUpdate.connect(bob).SetGatherTaxPercentage(50);
+        await proxyUpdate.connect(bob).healCostSetter(ethers.utils.parseEther('500'));
+        await proxyUpdate.connect(bob).SetLevelUpCostMultiplier(100);
+        console.log(await proxyUpdate.connect(bob).HEALING_COST())
+        await proxyUpdate.connect(bob).SetFrxstRates([
+            [50, 60, 4],
+            [90, 135, 10],
+            [130, 195, 26]
+        ]);
+        await proxyUpdate.connect(bob).SetExpRates([
+            [80,100,120],
+            [96,120,144],
+            [120,150,180]
+        ]);
+        await proxyUpdate.connect(bob).setyetiMultiplier([100, 120, 150])
+        await proxyUpdate.connect(bob).setlevelCost([0, 48, 210, 512, 980, 2100, 3430, 4760, 6379, 8313])
+        await proxyUpdate.connect(bob).setLevelExp([0, 50, 200, 450, 800, 1600, 2450, 3200, 4050, 5000])
+        await proxyUpdate.connect(bob).SetDesignatedSigner("0x2141fc90F4d8114e8778447d7c19b5992F6A0611")
+        console.log('Address: ',await proxyUpdate.connect(bob).designatedSigner())
+        await frxst.connect(alice).addController(alice.address);
+        console.log(await nft.balanceOf(proxyUpdate.address))
+        setTimeout(function () {
+            console.log('The code went to sleep for', 10, 'seconds')
+        }, 10);
+        function timeout(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+        await timeout(10*1000)
+        await proxyUpdate.connect(alice).claimMany([46],true)
     });
 
-    // it('Underflow test', async function(){
-    //     await frxst.connect(owner).addController(yeti.address);
-    //     await yeti.connect(owner).addManyToPalace(owner.address, [46], 2);
+    it ("Stake Test", async function(){
+        await frxst.connect(alice).addController(alice.address);
+        console.log(await nft.balanceOf(proxyUpdate.address))
+        setTimeout(function () {
+            console.log('The code went to sleep for', 10, 'seconds')
+        }, 10);
+        function timeout(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+        await timeout(10*1000)
+        await proxyUpdate.connect(bob).claimMany([46],true)
+        console.log('Firxt Balance of Alice after claiming',await frxst.balanceOf(alice.address))
+        console.log('Firxt Balance of Treasury after claiming',await frxst.balanceOf(treasury.address))
+        console.log('Experience After 1 Day @ lvl1: ',await proxyUpdate.connect(alice).experience([46]))
+        // await frxst.connect(alice).mint(alice.address,ethers.utils.parseEther('5'));
+        // await proxyUpdate.connect(alice).levelup(46)
+        // console.log('Firxt Balance of Alice after levelingUp 5 token was added as a gift',await frxst.balanceOf(alice.address))
+        // console.log('Token Level: ',await proxyUpdate.connect(alice).levels([46]))
+        // await nft.approve(proxyUpdate.address,46)
+        // await proxyUpdate.connect(alice).addManyToPalace(alice.address,[46],0)
+        // await timeout(10*1000)
+        // await proxyUpdate.connect(alice).claimMany([46],false)
+        // console.log('Firxt Balance of Alice after levelup and claim',await frxst.balanceOf(alice.address))
+        // console.log('Firxt Balance of Treasury',await frxst.balanceOf(treasury.address))
+        // console.log('Experience After 1 Day @ lvl2: ',await proxyUpdate.connect(alice).experience([46]))
+    })
+    //
+    // it ('Claim From Harvesting Test', async function(){
+    //     await proxyUpdate.connect(alice).addManyToPalace(alice.address,[46],0)
     //     setTimeout(function () {
     //         console.log('The code went to sleep for', 10, 'seconds')
     //     }, 10);
     //     function timeout(ms) {
     //         return new Promise(resolve => setTimeout(resolve, ms));
     //     }
-    //     console.log("Sleeping For another 10 seconds");
-    //     await timeout(10*1000);
-    //     // await timeout(10*1000);
-    //     await yeti.claimMany([46], true);
-    //     await frxst.connect(owner).addController(owner.address);
-    //     await frxst.connect(owner).mint(owner.address, ethers.utils.parseEther('100'));
-    //     await frxst.connect(owner).approve(yeti.address, ethers.utils.parseEther('100'));
-    //     console.log(await yeti.experience(46));
-    //     await yeti.connect(owner).levelup(46);
-    //     // console.log(await yeti.levels[46]);
-    // });
+    //     await timeout(10*1000)
+    //     await proxyUpdate.connect(alice).claimMany([46],true)
+    //     console.log('Firxt Balance of Alice after claiming',await frxst.balanceOf(alice.address))
+    //     console.log('Firxt Balance of Treasury after claiming',await frxst.balanceOf(treasury.address))
+    //     console.log('Experience After 1 Day @ lvl1: ',await proxyUpdate.experience([46]))
+    //     await proxyUpdate.levelup(46)
+    //     console.log('Token Level: ',await proxyUpdate.levels([46]))
+    //     await nft.approve(proxyUpdate.address,46)
+    //     await proxyUpdate.connect(alice).addManyToPalace(alice.address,[46],0)
+    //     await timeout(10*1000)
+    //     await proxyUpdate.connect(alice).claimMany([46],false)
+    //     console.log('Firxt Balance of Alice after levelup and claim',await frxst.balanceOf(alice.address))
+    //     console.log('Firxt Balance of Treasury',await frxst.balanceOf(treasury.address))
+    //     console.log('Experience After 1 Day @ lvl2: ',await proxyUpdate.experience([46]))
+    //     // await yeti.levelup(46)
+    // })
+    //
+    // it ('Claim From Hunting Test', async function(){
+    //     console.log('The signer is := ',await proxyUpdate.connect(alice).designatedSigner())
+    //     await yeti.connect(alice).addManyToPalace(alice.address,[46],1)
+    //     setTimeout(function () {
+    //         console.log('The code went to sleep for', 10, 'seconds')
+    //     }, 10);
+    //     function timeout(ms) {
+    //         return new Promise(resolve => setTimeout(resolve, ms));
+    //     }
+    //     await timeout(10*1000)
+    //     await yeti.connect(alice).claimMany([46],true)
+    //     console.log('Balance of Alice After first claim @ 1days',await frxst.balanceOf(alice.address))
+    //     console.log('Balance of Treasury After claim @1 days',await frxst.balanceOf(treasury.address))
+    //     console.log('Experience after claim @1 days',await yeti.experience([46]))
+    //     await yeti.levelup(46)
+    //     console.log('Balance of Alice After 1st level up',await frxst.balanceOf(alice.address))
+    //     console.log('Level : ',await yeti.levels([46]))
+    //     await nft.approve(yeti.address,46)
+    //     await yeti.connect(alice).addManyToPalace(alice.address,[46],1)
+    //     await timeout(10*1000)
+    //     await yeti.connect(alice).claimMany([46],false)
+    //     console.log('Balance Of Alice After Level UP and Claim @ 1 days',await frxst.balanceOf(alice.address))
+    //     console.log('Balance Of Treasury after @ 1 days',await frxst.balanceOf(treasury.address))
+    //     console.log('Experience Gathered At Level2 @ 1 days',await yeti.experience([46]))
+    //     // await yeti.levelup(46)
+    //     // console.log('Experience Gathered At Level3 @ 0 days',await yeti.experience([46]))
+    //     // console.log('Level : ',await yeti.levels([46]))
+    // })
+    //
+    // it ('Claim From Fighting Test', async function(){
+    //     await yeti.connect(alice).addManyToPalace(alice.address,[46],2)
+    //     setTimeout(function () {
+    //         console.log('The code went to sleep for', 20, 'seconds')
+    //     }, 20);
+    //     function timeout(ms) {
+    //         return new Promise(resolve => setTimeout(resolve, ms));
+    //     }
+    //     await timeout(20*1000)
+    //     await yeti.connect(alice).claimMany([46],true)
+    //     console.log('Balance of Alice After first claim @ 2days',await frxst.balanceOf(alice.address))
+    //     console.log('Balance of Treasury After claim @2 days',await frxst.balanceOf(treasury.address))
+    //     console.log('Experience after claim @2 days',await yeti.experience([46]))
+    //     await yeti.levelup(46)
+    //     console.log('Balance of Alice After 1st level up',await frxst.balanceOf(alice.address))
+    //     console.log('Level : ',await yeti.levels([46]))
+    //     await nft.approve(yeti.address,46)
+    //     await yeti.connect(alice).addManyToPalace(alice.address,[46],2)
+    //     await timeout(10*1000)
+    //     await yeti.connect(alice).claimMany([46],false)
+    //     console.log('Balance Of Alice After Level UP and Claim @ 1 days',await frxst.balanceOf(alice.address))
+    //     console.log('Balance Of Treasury after @ 1 days',await frxst.balanceOf(treasury.address))
+    //     console.log('Experience Gathered At Level2 @ 1 days',await yeti.experience([46]))
+    //     // await yeti.levelup(46)
+    //     // console.log('Experience Gathered At Level3 @ 0 days',await yeti.experience([46]))
+    //     // console.log('Level : ',await yeti.levels([46]))
+    // })
 
+    // it ('Check Losing Honour', async function (){
+    //         await yeti.connect(alice).addManyToPalace(alice.address,[46],2)
+    //         setTimeout(function () {
+    //             console.log('The code went to sleep for', 10, 'seconds')
+    //         }, 10);
+    //         function timeout(ms) {
+    //             return new Promise(resolve => setTimeout(resolve, ms));
+    //         }
+    //         await timeout(10*1000)
+    //         await yeti.connect(alice).claimMany([46],true)
+    //         console.log('Balance of Alice After first claim @ 1days',await frxst.balanceOf(alice.address))
+    //         console.log('Balance of Treasury After claim @1 days',await frxst.balanceOf(treasury.address))
+    //         console.log('Experience after claim @1 days',await yeti.experience([46]))
+    // })
+    // it ('Check Injury Exp Half', async function (){
+    //         await yeti.connect(alice).addManyToPalace(alice.address,[46],1)
+    //         setTimeout(function () {
+    //             console.log('The code went to sleep for', 10, 'seconds')
+    //         }, 10);
+    //         function timeout(ms) {
+    //             return new Promise(resolve => setTimeout(resolve, ms));
+    //         }
+    //         await timeout(10*1000)
+    //         await yeti.connect(alice).claimMany([46],true)
+    //         console.log('Balance of Alice After first claim @ 1days',await frxst.balanceOf(alice.address))
+    //         console.log('Balance of Treasury After claim @1 days',await frxst.balanceOf(treasury.address))
+    //         console.log('Experience after claim @1 days',await yeti.experience([46]))
+    // })
 
-});
-
-
+})

@@ -1,16 +1,1238 @@
 {
   "_format": "hh-sol-cache-2",
   "files": {
-    "/Users/yuriifirs/PhpstormProjects/yetitowm/YetiTown/contracts/Address.sol": {
-      "lastModificationDate": 1643286046909,
-      "contentHash": "855ec7656b973c2272e8668424db1439",
-      "sourceName": "contracts/Address.sol",
+    "/Users/yuriifirs/PhpstormProjects/yetitowm/YetiTown/node_modules/hardhat/console.sol": {
+      "lastModificationDate": 1645785847118,
+      "contentHash": "cc4777addd464ea56fa35b1c45df0591",
+      "sourceName": "hardhat/console.sol",
       "solcConfig": {
-        "version": "0.8.4",
+        "version": "0.8.7",
         "settings": {
           "optimizer": {
             "enabled": true,
-            "runs": 200
+            "runs": 100
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        ">=0.4.22 <0.9.0"
+      ],
+      "artifacts": [
+        "console"
+      ]
+    },
+    "/Users/yuriifirs/PhpstormProjects/yetitowm/YetiTown/contracts/mainnetTesting/FRXST.sol": {
+      "lastModificationDate": 1645774283267,
+      "contentHash": "95c046860c9e09e1129ab6cd21ad75c7",
+      "sourceName": "contracts/mainnetTesting/FRXST.sol",
+      "solcConfig": {
+        "version": "0.8.7",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 100
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./ERC20.sol",
+        "./Ownable.sol",
+        "hardhat/console.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "FRXST"
+      ]
+    },
+    "/Users/yuriifirs/PhpstormProjects/yetitowm/YetiTown/contracts/mainnetTesting/ERC20.sol": {
+      "lastModificationDate": 1645774283253,
+      "contentHash": "0036e6266e32e93e641cbe2a714c89bf",
+      "sourceName": "contracts/mainnetTesting/ERC20.sol",
+      "solcConfig": {
+        "version": "0.8.7",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 100
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./Context.sol",
+        "./IERC20Metadata.sol",
+        "./IERC20.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "ERC20"
+      ]
+    },
+    "/Users/yuriifirs/PhpstormProjects/yetitowm/YetiTown/contracts/mainnetTesting/Ownable.sol": {
+      "lastModificationDate": 1645774283256,
+      "contentHash": "8d905b69e45db3a5ae75dae1cd65cfaf",
+      "sourceName": "contracts/mainnetTesting/Ownable.sol",
+      "solcConfig": {
+        "version": "0.8.7",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 100
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./Context.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "Ownable"
+      ]
+    },
+    "/Users/yuriifirs/PhpstormProjects/yetitowm/YetiTown/contracts/mainnetTesting/Context.sol": {
+      "lastModificationDate": 1645774283269,
+      "contentHash": "7cdda792aa77ecd7dd7b1634f19bc0d1",
+      "sourceName": "contracts/mainnetTesting/Context.sol",
+      "solcConfig": {
+        "version": "0.8.7",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 100
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "Context"
+      ]
+    },
+    "/Users/yuriifirs/PhpstormProjects/yetitowm/YetiTown/contracts/mainnetTesting/IERC20Metadata.sol": {
+      "lastModificationDate": 1645774283266,
+      "contentHash": "1578507e53518853beafb367811e1b60",
+      "sourceName": "contracts/mainnetTesting/IERC20Metadata.sol",
+      "solcConfig": {
+        "version": "0.8.7",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 100
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./IERC20.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IERC20Metadata"
+      ]
+    },
+    "/Users/yuriifirs/PhpstormProjects/yetitowm/YetiTown/contracts/mainnetTesting/IERC20.sol": {
+      "lastModificationDate": 1645774283251,
+      "contentHash": "2f2fd25317227c289aa46ad60641752d",
+      "sourceName": "contracts/mainnetTesting/IERC20.sol",
+      "solcConfig": {
+        "version": "0.8.7",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 100
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IERC20"
+      ]
+    },
+    "/Users/yuriifirs/PhpstormProjects/yetitowm/YetiTown/contracts/mainnetTesting/testV3.sol": {
+      "lastModificationDate": 1645785916772,
+      "contentHash": "a0e63939c15919d43e1d45cc76d1c537",
+      "sourceName": "contracts/mainnetTesting/testV3.sol",
+      "solcConfig": {
+        "version": "0.8.7",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 100
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./IERC721Receiver.sol",
+        "./Pausable.sol",
+        "./Ownable.sol",
+        "./YetiTown.sol",
+        "./FRXST.sol",
+        "./Timestamp.sol",
+        "./IVRF.sol",
+        "./Whitelist.sol",
+        "./Initializable.sol"
+      ],
+      "versionPragmas": [
+        "0.8.7"
+      ],
+      "artifacts": [
+        "V3YetiGameLogic"
+      ]
+    },
+    "/Users/yuriifirs/PhpstormProjects/yetitowm/YetiTown/contracts/mainnetTesting/IERC721Receiver.sol": {
+      "lastModificationDate": 1645774283254,
+      "contentHash": "c68797f8b24adab8525949804a546234",
+      "sourceName": "contracts/mainnetTesting/IERC721Receiver.sol",
+      "solcConfig": {
+        "version": "0.8.7",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 100
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IERC721Receiver"
+      ]
+    },
+    "/Users/yuriifirs/PhpstormProjects/yetitowm/YetiTown/contracts/mainnetTesting/Pausable.sol": {
+      "lastModificationDate": 1645774283255,
+      "contentHash": "82e7e4c66a7e13967e34f4c8dc73f81e",
+      "sourceName": "contracts/mainnetTesting/Pausable.sol",
+      "solcConfig": {
+        "version": "0.8.7",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 100
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./Context.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "Pausable"
+      ]
+    },
+    "/Users/yuriifirs/PhpstormProjects/yetitowm/YetiTown/contracts/mainnetTesting/YetiTown.sol": {
+      "lastModificationDate": 1645774283264,
+      "contentHash": "ff0f39cb48f66f8ef29dd07415565099",
+      "sourceName": "contracts/mainnetTesting/YetiTown.sol",
+      "solcConfig": {
+        "version": "0.8.7",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 100
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./ERC721Enumerable.sol",
+        "./Ownable.sol"
+      ],
+      "versionPragmas": [
+        ">=0.7.0 <0.9.0"
+      ],
+      "artifacts": [
+        "YetiTown"
+      ]
+    },
+    "/Users/yuriifirs/PhpstormProjects/yetitowm/YetiTown/contracts/mainnetTesting/Timestamp.sol": {
+      "lastModificationDate": 1645774283255,
+      "contentHash": "d26da366ff5bdf10ad61922e2a3d4fda",
+      "sourceName": "contracts/mainnetTesting/Timestamp.sol",
+      "solcConfig": {
+        "version": "0.8.7",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 100
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./IOracle.sol",
+        "./Ownable.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "TimestampVRF"
+      ]
+    },
+    "/Users/yuriifirs/PhpstormProjects/yetitowm/YetiTown/contracts/mainnetTesting/IVRF.sol": {
+      "lastModificationDate": 1645774283265,
+      "contentHash": "e2c4ef8909bef1712524bd8e167836ad",
+      "sourceName": "contracts/mainnetTesting/IVRF.sol",
+      "solcConfig": {
+        "version": "0.8.7",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 100
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IVRF"
+      ]
+    },
+    "/Users/yuriifirs/PhpstormProjects/yetitowm/YetiTown/contracts/mainnetTesting/Whitelist.sol": {
+      "lastModificationDate": 1645774283262,
+      "contentHash": "c4e27cfe7ebe0de2359ddc1d7b0a4b8d",
+      "sourceName": "contracts/mainnetTesting/Whitelist.sol",
+      "solcConfig": {
+        "version": "0.8.7",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 100
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./EIP712.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "rarityCheck"
+      ]
+    },
+    "/Users/yuriifirs/PhpstormProjects/yetitowm/YetiTown/contracts/mainnetTesting/Initializable.sol": {
+      "lastModificationDate": 1645774283248,
+      "contentHash": "c6f87dd63ad89e103fb8e6657f0089c3",
+      "sourceName": "contracts/mainnetTesting/Initializable.sol",
+      "solcConfig": {
+        "version": "0.8.7",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 100
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./Address.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "Initializable"
+      ]
+    },
+    "/Users/yuriifirs/PhpstormProjects/yetitowm/YetiTown/contracts/mainnetTesting/ERC721Enumerable.sol": {
+      "lastModificationDate": 1645774283266,
+      "contentHash": "8c5ad2a8d7950ae288edb79939efc0ba",
+      "sourceName": "contracts/mainnetTesting/ERC721Enumerable.sol",
+      "solcConfig": {
+        "version": "0.8.7",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 100
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./ERC721.sol",
+        "./IERC721Enumerable.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "ERC721Enumerable"
+      ]
+    },
+    "/Users/yuriifirs/PhpstormProjects/yetitowm/YetiTown/contracts/mainnetTesting/ERC721.sol": {
+      "lastModificationDate": 1645774283259,
+      "contentHash": "5134ef47c655482fcd7b83d83bb0993c",
+      "sourceName": "contracts/mainnetTesting/ERC721.sol",
+      "solcConfig": {
+        "version": "0.8.7",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 100
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./Context.sol",
+        "./ERC165.sol",
+        "./IERC721.sol",
+        "./IERC721Receiver.sol",
+        "./IERC721Metadata.sol",
+        "./Address.sol",
+        "./Strings.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "ERC721"
+      ]
+    },
+    "/Users/yuriifirs/PhpstormProjects/yetitowm/YetiTown/contracts/mainnetTesting/IERC721Enumerable.sol": {
+      "lastModificationDate": 1645774283249,
+      "contentHash": "254ed369cf28e6b14d23a24c3d5de3e5",
+      "sourceName": "contracts/mainnetTesting/IERC721Enumerable.sol",
+      "solcConfig": {
+        "version": "0.8.7",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 100
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./IERC721.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IERC721Enumerable"
+      ]
+    },
+    "/Users/yuriifirs/PhpstormProjects/yetitowm/YetiTown/contracts/mainnetTesting/ERC165.sol": {
+      "lastModificationDate": 1645774283274,
+      "contentHash": "755e737ea157dbe51690ebc9f77d8005",
+      "sourceName": "contracts/mainnetTesting/ERC165.sol",
+      "solcConfig": {
+        "version": "0.8.7",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 100
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./IERC165.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "ERC165"
+      ]
+    },
+    "/Users/yuriifirs/PhpstormProjects/yetitowm/YetiTown/contracts/mainnetTesting/IERC721.sol": {
+      "lastModificationDate": 1645774283261,
+      "contentHash": "f67b30a6064bba017b3a30d2049ea8f6",
+      "sourceName": "contracts/mainnetTesting/IERC721.sol",
+      "solcConfig": {
+        "version": "0.8.7",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 100
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./IERC165.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IERC721"
+      ]
+    },
+    "/Users/yuriifirs/PhpstormProjects/yetitowm/YetiTown/contracts/mainnetTesting/IERC721Metadata.sol": {
+      "lastModificationDate": 1645774283250,
+      "contentHash": "98cbdd8a9b3721a9b15ae9b473ba1eaa",
+      "sourceName": "contracts/mainnetTesting/IERC721Metadata.sol",
+      "solcConfig": {
+        "version": "0.8.7",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 100
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./IERC721.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IERC721Metadata"
+      ]
+    },
+    "/Users/yuriifirs/PhpstormProjects/yetitowm/YetiTown/contracts/mainnetTesting/Address.sol": {
+      "lastModificationDate": 1645774283258,
+      "contentHash": "855ec7656b973c2272e8668424db1439",
+      "sourceName": "contracts/mainnetTesting/Address.sol",
+      "solcConfig": {
+        "version": "0.8.7",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 100
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "Address"
+      ]
+    },
+    "/Users/yuriifirs/PhpstormProjects/yetitowm/YetiTown/contracts/mainnetTesting/Strings.sol": {
+      "lastModificationDate": 1645774283270,
+      "contentHash": "b77f6d985e5b87cd5f80825cd68ac544",
+      "sourceName": "contracts/mainnetTesting/Strings.sol",
+      "solcConfig": {
+        "version": "0.8.7",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 100
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "Strings"
+      ]
+    },
+    "/Users/yuriifirs/PhpstormProjects/yetitowm/YetiTown/contracts/mainnetTesting/IERC165.sol": {
+      "lastModificationDate": 1645774283275,
+      "contentHash": "5a69c246b893fa6f83af3e46d38d9208",
+      "sourceName": "contracts/mainnetTesting/IERC165.sol",
+      "solcConfig": {
+        "version": "0.8.7",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 100
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IERC165"
+      ]
+    },
+    "/Users/yuriifirs/PhpstormProjects/yetitowm/YetiTown/contracts/mainnetTesting/IOracle.sol": {
+      "lastModificationDate": 1645774283263,
+      "contentHash": "f70aff82aa45950701993c726cfdf700",
+      "sourceName": "contracts/mainnetTesting/IOracle.sol",
+      "solcConfig": {
+        "version": "0.8.7",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 100
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IOracle"
+      ]
+    },
+    "/Users/yuriifirs/PhpstormProjects/yetitowm/YetiTown/contracts/mainnetTesting/EIP712.sol": {
+      "lastModificationDate": 1645774283273,
+      "contentHash": "20dafa6446186243bf6e02bf1b33625a",
+      "sourceName": "contracts/mainnetTesting/EIP712.sol",
+      "solcConfig": {
+        "version": "0.8.7",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 100
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./ECDSA.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "EIP712"
+      ]
+    },
+    "/Users/yuriifirs/PhpstormProjects/yetitowm/YetiTown/contracts/mainnetTesting/ECDSA.sol": {
+      "lastModificationDate": 1645774283260,
+      "contentHash": "3718ee320f508ee205e39cc245898525",
+      "sourceName": "contracts/mainnetTesting/ECDSA.sol",
+      "solcConfig": {
+        "version": "0.8.7",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 100
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./Strings.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "ECDSA"
+      ]
+    },
+    "/Users/yuriifirs/PhpstormProjects/yetitowm/YetiTown/contracts/mainnetTesting/GameLogic.sol": {
+      "lastModificationDate": 1645774283257,
+      "contentHash": "bedda54539c5627afd96df5a96f6aa61",
+      "sourceName": "contracts/mainnetTesting/GameLogic.sol",
+      "solcConfig": {
+        "version": "0.8.7",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 100
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./IERC721Receiver.sol",
+        "./Pausable.sol",
+        "./Ownable.sol",
+        "./YetiTown.sol",
+        "./FRXST.sol",
+        "./Timestamp.sol",
+        "./IVRF.sol",
+        "./Whitelist.sol",
+        "./Initializable.sol"
+      ],
+      "versionPragmas": [
+        "0.8.7"
+      ],
+      "artifacts": [
+        "YetiGameLogic"
+      ]
+    },
+    "/Users/yuriifirs/PhpstormProjects/yetitowm/YetiTown/contracts/mainnetTesting/dummy.sol": {
+      "lastModificationDate": 1645774283258,
+      "contentHash": "a990a68be88b34c9d5047890da6e6ecf",
+      "sourceName": "contracts/mainnetTesting/dummy.sol",
+      "solcConfig": {
+        "version": "0.8.7",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 100
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "hardhat/console.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "test1"
+      ]
+    },
+    "/Users/yuriifirs/PhpstormProjects/yetitowm/YetiTown/contracts/mainnetTesting/console.sol": {
+      "lastModificationDate": 1645774283272,
+      "contentHash": "ebd44926f17228ee3e822384dea95e6a",
+      "sourceName": "contracts/mainnetTesting/console.sol",
+      "solcConfig": {
+        "version": "0.8.7",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 100
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        ">=0.4.22 <0.9.0"
+      ],
+      "artifacts": [
+        "console"
+      ]
+    },
+    "/Users/yuriifirs/PhpstormProjects/yetitowm/YetiTown/contracts/mainnetTesting/OracleVRF.sol": {
+      "lastModificationDate": 1645774283268,
+      "contentHash": "3febaca2baace584ceedab341b8ce521",
+      "sourceName": "contracts/mainnetTesting/OracleVRF.sol",
+      "solcConfig": {
+        "version": "0.8.7",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 100
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [],
+      "artifacts": []
+    },
+    "/Users/yuriifirs/PhpstormProjects/yetitowm/YetiTown/contracts/mainnetTesting/Proxy.sol": {
+      "lastModificationDate": 1645774283263,
+      "contentHash": "0ce1b80a6e3f466bd652ca52bb406173",
+      "sourceName": "contracts/mainnetTesting/Proxy.sol",
+      "solcConfig": {
+        "version": "0.8.7",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 100
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "Proxy"
+      ]
+    },
+    "/Users/yuriifirs/PhpstormProjects/yetitowm/YetiTown/contracts/mainnetTesting/UnstructuredProxy.sol": {
+      "lastModificationDate": 1645774283252,
+      "contentHash": "b40c60123cd62bf9e9d69ca8969cd6aa",
+      "sourceName": "contracts/mainnetTesting/UnstructuredProxy.sol",
+      "solcConfig": {
+        "version": "0.8.7",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 100
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./Proxy.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.4"
+      ],
+      "artifacts": [
+        "UnstructuredProxy"
+      ]
+    },
+    "/Users/yuriifirs/PhpstormProjects/yetitowm/YetiTown/contracts/Address.sol": {
+      "lastModificationDate": 1646050519340,
+      "contentHash": "855ec7656b973c2272e8668424db1439",
+      "sourceName": "contracts/Address.sol",
+      "solcConfig": {
+        "version": "0.8.7",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 100
           },
           "outputSelection": {
             "*": {
@@ -37,15 +1259,15 @@
       ]
     },
     "/Users/yuriifirs/PhpstormProjects/yetitowm/YetiTown/contracts/ERC721.sol": {
-      "lastModificationDate": 1643286046910,
+      "lastModificationDate": 1646050519341,
       "contentHash": "5134ef47c655482fcd7b83d83bb0993c",
       "sourceName": "contracts/ERC721.sol",
       "solcConfig": {
-        "version": "0.8.4",
+        "version": "0.8.7",
         "settings": {
           "optimizer": {
             "enabled": true,
-            "runs": 200
+            "runs": 100
           },
           "outputSelection": {
             "*": {
@@ -80,15 +1302,15 @@
       ]
     },
     "/Users/yuriifirs/PhpstormProjects/yetitowm/YetiTown/contracts/Context.sol": {
-      "lastModificationDate": 1643286046909,
+      "lastModificationDate": 1646050519342,
       "contentHash": "7cdda792aa77ecd7dd7b1634f19bc0d1",
       "sourceName": "contracts/Context.sol",
       "solcConfig": {
-        "version": "0.8.4",
+        "version": "0.8.7",
         "settings": {
           "optimizer": {
             "enabled": true,
-            "runs": 200
+            "runs": 100
           },
           "outputSelection": {
             "*": {
@@ -115,15 +1337,15 @@
       ]
     },
     "/Users/yuriifirs/PhpstormProjects/yetitowm/YetiTown/contracts/ERC165.sol": {
-      "lastModificationDate": 1643286046909,
+      "lastModificationDate": 1646050519340,
       "contentHash": "755e737ea157dbe51690ebc9f77d8005",
       "sourceName": "contracts/ERC165.sol",
       "solcConfig": {
-        "version": "0.8.4",
+        "version": "0.8.7",
         "settings": {
           "optimizer": {
             "enabled": true,
-            "runs": 200
+            "runs": 100
           },
           "outputSelection": {
             "*": {
@@ -152,15 +1374,15 @@
       ]
     },
     "/Users/yuriifirs/PhpstormProjects/yetitowm/YetiTown/contracts/IERC721.sol": {
-      "lastModificationDate": 1643286046912,
+      "lastModificationDate": 1646050519341,
       "contentHash": "f67b30a6064bba017b3a30d2049ea8f6",
       "sourceName": "contracts/IERC721.sol",
       "solcConfig": {
-        "version": "0.8.4",
+        "version": "0.8.7",
         "settings": {
           "optimizer": {
             "enabled": true,
-            "runs": 200
+            "runs": 100
           },
           "outputSelection": {
             "*": {
@@ -189,15 +1411,15 @@
       ]
     },
     "/Users/yuriifirs/PhpstormProjects/yetitowm/YetiTown/contracts/IERC721Receiver.sol": {
-      "lastModificationDate": 1643286046913,
+      "lastModificationDate": 1646050519389,
       "contentHash": "c68797f8b24adab8525949804a546234",
       "sourceName": "contracts/IERC721Receiver.sol",
       "solcConfig": {
-        "version": "0.8.4",
+        "version": "0.8.7",
         "settings": {
           "optimizer": {
             "enabled": true,
-            "runs": 200
+            "runs": 100
           },
           "outputSelection": {
             "*": {
@@ -224,15 +1446,15 @@
       ]
     },
     "/Users/yuriifirs/PhpstormProjects/yetitowm/YetiTown/contracts/IERC721Metadata.sol": {
-      "lastModificationDate": 1643286046913,
+      "lastModificationDate": 1646050519389,
       "contentHash": "98cbdd8a9b3721a9b15ae9b473ba1eaa",
       "sourceName": "contracts/IERC721Metadata.sol",
       "solcConfig": {
-        "version": "0.8.4",
+        "version": "0.8.7",
         "settings": {
           "optimizer": {
             "enabled": true,
-            "runs": 200
+            "runs": 100
           },
           "outputSelection": {
             "*": {
@@ -261,15 +1483,15 @@
       ]
     },
     "/Users/yuriifirs/PhpstormProjects/yetitowm/YetiTown/contracts/Strings.sol": {
-      "lastModificationDate": 1643286046914,
+      "lastModificationDate": 1646050519485,
       "contentHash": "b77f6d985e5b87cd5f80825cd68ac544",
       "sourceName": "contracts/Strings.sol",
       "solcConfig": {
-        "version": "0.8.4",
+        "version": "0.8.7",
         "settings": {
           "optimizer": {
             "enabled": true,
-            "runs": 200
+            "runs": 100
           },
           "outputSelection": {
             "*": {
@@ -296,15 +1518,15 @@
       ]
     },
     "/Users/yuriifirs/PhpstormProjects/yetitowm/YetiTown/contracts/IERC165.sol": {
-      "lastModificationDate": 1643286046911,
+      "lastModificationDate": 1646050519389,
       "contentHash": "5a69c246b893fa6f83af3e46d38d9208",
       "sourceName": "contracts/IERC165.sol",
       "solcConfig": {
-        "version": "0.8.4",
+        "version": "0.8.7",
         "settings": {
           "optimizer": {
             "enabled": true,
-            "runs": 200
+            "runs": 100
           },
           "outputSelection": {
             "*": {
@@ -331,15 +1553,15 @@
       ]
     },
     "/Users/yuriifirs/PhpstormProjects/yetitowm/YetiTown/contracts/ERC721Enumerable.sol": {
-      "lastModificationDate": 1643286046910,
+      "lastModificationDate": 1646050519340,
       "contentHash": "8c5ad2a8d7950ae288edb79939efc0ba",
       "sourceName": "contracts/ERC721Enumerable.sol",
       "solcConfig": {
-        "version": "0.8.4",
+        "version": "0.8.7",
         "settings": {
           "optimizer": {
             "enabled": true,
-            "runs": 200
+            "runs": 100
           },
           "outputSelection": {
             "*": {
@@ -369,15 +1591,15 @@
       ]
     },
     "/Users/yuriifirs/PhpstormProjects/yetitowm/YetiTown/contracts/IERC721Enumerable.sol": {
-      "lastModificationDate": 1643286046912,
+      "lastModificationDate": 1646050519389,
       "contentHash": "254ed369cf28e6b14d23a24c3d5de3e5",
       "sourceName": "contracts/IERC721Enumerable.sol",
       "solcConfig": {
-        "version": "0.8.4",
+        "version": "0.8.7",
         "settings": {
           "optimizer": {
             "enabled": true,
-            "runs": 200
+            "runs": 100
           },
           "outputSelection": {
             "*": {
@@ -406,15 +1628,15 @@
       ]
     },
     "/Users/yuriifirs/PhpstormProjects/yetitowm/YetiTown/contracts/YetiTown.sol": {
-      "lastModificationDate": 1643286046914,
-      "contentHash": "44d7b8c315b39a77fde5e64d9b4729ee",
+      "lastModificationDate": 1646050519485,
+      "contentHash": "0ac61087081e70644c001a1757d086fc",
       "sourceName": "contracts/YetiTown.sol",
       "solcConfig": {
-        "version": "0.8.4",
+        "version": "0.8.7",
         "settings": {
           "optimizer": {
             "enabled": true,
-            "runs": 200
+            "runs": 100
           },
           "outputSelection": {
             "*": {
@@ -444,15 +1666,15 @@
       ]
     },
     "/Users/yuriifirs/PhpstormProjects/yetitowm/YetiTown/contracts/Ownable.sol": {
-      "lastModificationDate": 1643286046913,
+      "lastModificationDate": 1646050519445,
       "contentHash": "e03033c497da432556ed25b718cc768f",
       "sourceName": "contracts/Ownable.sol",
       "solcConfig": {
-        "version": "0.8.4",
+        "version": "0.8.7",
         "settings": {
           "optimizer": {
             "enabled": true,
-            "runs": 200
+            "runs": 100
           },
           "outputSelection": {
             "*": {
@@ -481,15 +1703,15 @@
       ]
     },
     "/Users/yuriifirs/PhpstormProjects/yetitowm/YetiTown/contracts/RarityStorage.sol": {
-      "lastModificationDate": 1643286046914,
-      "contentHash": "43e6d641e56c4fcf041ec2f4b5230445",
+      "lastModificationDate": 1646050519485,
+      "contentHash": "45674ef850f2f637311489f5c6149f71",
       "sourceName": "contracts/RarityStorage.sol",
       "solcConfig": {
-        "version": "0.8.4",
+        "version": "0.8.7",
         "settings": {
           "optimizer": {
             "enabled": true,
-            "runs": 200
+            "runs": 100
           },
           "outputSelection": {
             "*": {
@@ -518,15 +1740,15 @@
       ]
     },
     "/Users/yuriifirs/PhpstormProjects/yetitowm/YetiTown/contracts/GameLogic.sol": {
-      "lastModificationDate": 1643286046911,
-      "contentHash": "488eb5a94a7a0c96ec5fac0ef7511dfd",
+      "lastModificationDate": 1646050519341,
+      "contentHash": "a363a3ee0b2fe032ea79eda7b1aab6c4",
       "sourceName": "contracts/GameLogic.sol",
       "solcConfig": {
-        "version": "0.8.4",
+        "version": "0.8.7",
         "settings": {
           "optimizer": {
             "enabled": true,
-            "runs": 200
+            "runs": 100
           },
           "outputSelection": {
             "*": {
@@ -560,15 +1782,15 @@
       ]
     },
     "/Users/yuriifirs/PhpstormProjects/yetitowm/YetiTown/contracts/Pausable.sol": {
-      "lastModificationDate": 1643286046913,
+      "lastModificationDate": 1646050519445,
       "contentHash": "dac4e841dbe2106ac80535980e6aa072",
       "sourceName": "contracts/Pausable.sol",
       "solcConfig": {
-        "version": "0.8.4",
+        "version": "0.8.7",
         "settings": {
           "optimizer": {
             "enabled": true,
-            "runs": 200
+            "runs": 100
           },
           "outputSelection": {
             "*": {
@@ -597,15 +1819,15 @@
       ]
     },
     "/Users/yuriifirs/PhpstormProjects/yetitowm/YetiTown/contracts/FRXST.sol": {
-      "lastModificationDate": 1643286046910,
+      "lastModificationDate": 1646050519341,
       "contentHash": "95c046860c9e09e1129ab6cd21ad75c7",
       "sourceName": "contracts/FRXST.sol",
       "solcConfig": {
-        "version": "0.8.4",
+        "version": "0.8.7",
         "settings": {
           "optimizer": {
             "enabled": true,
-            "runs": 200
+            "runs": 100
           },
           "outputSelection": {
             "*": {
@@ -636,15 +1858,15 @@
       ]
     },
     "/Users/yuriifirs/PhpstormProjects/yetitowm/YetiTown/contracts/ERC20.sol": {
-      "lastModificationDate": 1643286046910,
+      "lastModificationDate": 1646050519340,
       "contentHash": "0036e6266e32e93e641cbe2a714c89bf",
       "sourceName": "contracts/ERC20.sol",
       "solcConfig": {
-        "version": "0.8.4",
+        "version": "0.8.7",
         "settings": {
           "optimizer": {
             "enabled": true,
-            "runs": 200
+            "runs": 100
           },
           "outputSelection": {
             "*": {
@@ -674,51 +1896,16 @@
         "ERC20"
       ]
     },
-    "/Users/yuriifirs/PhpstormProjects/yetitowm/YetiTown/node_modules/hardhat/console.sol": {
-      "lastModificationDate": 1643288205399,
-      "contentHash": "cc4777addd464ea56fa35b1c45df0591",
-      "sourceName": "hardhat/console.sol",
-      "solcConfig": {
-        "version": "0.8.4",
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 200
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [
-        ">=0.4.22 <0.9.0"
-      ],
-      "artifacts": [
-        "console"
-      ]
-    },
     "/Users/yuriifirs/PhpstormProjects/yetitowm/YetiTown/contracts/IERC20Metadata.sol": {
-      "lastModificationDate": 1643286046912,
+      "lastModificationDate": 1646050519341,
       "contentHash": "1578507e53518853beafb367811e1b60",
       "sourceName": "contracts/IERC20Metadata.sol",
       "solcConfig": {
-        "version": "0.8.4",
+        "version": "0.8.7",
         "settings": {
           "optimizer": {
             "enabled": true,
-            "runs": 200
+            "runs": 100
           },
           "outputSelection": {
             "*": {
@@ -747,15 +1934,15 @@
       ]
     },
     "/Users/yuriifirs/PhpstormProjects/yetitowm/YetiTown/contracts/IERC20.sol": {
-      "lastModificationDate": 1643286046912,
+      "lastModificationDate": 1646050519342,
       "contentHash": "2f2fd25317227c289aa46ad60641752d",
       "sourceName": "contracts/IERC20.sol",
       "solcConfig": {
-        "version": "0.8.4",
+        "version": "0.8.7",
         "settings": {
           "optimizer": {
             "enabled": true,
-            "runs": 200
+            "runs": 100
           },
           "outputSelection": {
             "*": {
@@ -779,43 +1966,6 @@
       ],
       "artifacts": [
         "IERC20"
-      ]
-    },
-    "/Users/yuriifirs/PhpstormProjects/yetitowm/YetiTown/contracts/Greeter.sol": {
-      "lastModificationDate": 1643286046911,
-      "contentHash": "54c28c84e5277b35b8c8329ce9755dae",
-      "sourceName": "contracts/Greeter.sol",
-      "solcConfig": {
-        "version": "0.8.4",
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 200
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [
-        "hardhat/console.sol"
-      ],
-      "versionPragmas": [
-        "^0.8.0"
-      ],
-      "artifacts": [
-        "Greeter"
       ]
     }
   }
