@@ -388,7 +388,7 @@ contract YetiGameLogic is  Ownable, IERC721Receiver, rarityCheck, Initializable,
         uint hourly;
         if (stake.activityId == 1) {
             hourly = rates[c][stake.activityId] * 1 ether;
-            hourly = hourly + hourly*(levels[tokenId]-1)/10;
+            hourly = hourly + hourly*(levels[tokenId]-1)/10; 
         } else{
             hourly = rates[c][stake.activityId] *1 ether;
             hourly = hourly + hourly*(levels[tokenId]-1)/10;

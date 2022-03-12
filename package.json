@@ -28,6 +28,7 @@
   "dependencies": {
     "@nomiclabs/hardhat-etherscan": "^3.0.0",
     "@openzeppelin/test-helpers": "^0.5.15",
+    "ethereum-multicall": "^2.10.0",
     "hardhat-console": "^1.0.0",
     "hardhat-contract-sizer": "^2.4.0"
   }

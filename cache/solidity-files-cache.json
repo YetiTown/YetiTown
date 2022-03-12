@@ -2,7 +2,7 @@
   "_format": "hh-sol-cache-2",
   "files": {
     "/Users/yuriifirs/PhpstormProjects/yetitowm/YetiTown/node_modules/hardhat/console.sol": {
-      "lastModificationDate": 1645785847118,
+      "lastModificationDate": 1646391946335,
       "contentHash": "cc4777addd464ea56fa35b1c45df0591",
       "sourceName": "hardhat/console.sol",
       "solcConfig": {
@@ -37,7 +37,7 @@
       ]
     },
     "/Users/yuriifirs/PhpstormProjects/yetitowm/YetiTown/contracts/mainnetTesting/FRXST.sol": {
-      "lastModificationDate": 1645774283267,
+      "lastModificationDate": 1646050812235,
       "contentHash": "95c046860c9e09e1129ab6cd21ad75c7",
       "sourceName": "contracts/mainnetTesting/FRXST.sol",
       "solcConfig": {
@@ -1004,8 +1004,8 @@
       ]
     },
     "/Users/yuriifirs/PhpstormProjects/yetitowm/YetiTown/contracts/mainnetTesting/GameLogic.sol": {
-      "lastModificationDate": 1645774283257,
-      "contentHash": "bedda54539c5627afd96df5a96f6aa61",
+      "lastModificationDate": 1646931972393,
+      "contentHash": "defd67da79cf6ea7bb9e2ebe8f7b74b9",
       "sourceName": "contracts/mainnetTesting/GameLogic.sol",
       "solcConfig": {
         "version": "0.8.7",
